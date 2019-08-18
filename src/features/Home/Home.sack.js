@@ -25,7 +25,7 @@ const emptyObject = {}
 const emptyArray = []
 
 const defaultState = {
-  error: false,
+  error: '',
   list: emptyArray,
   fetching: false,
 };
@@ -53,7 +53,7 @@ export function* fetchEmployeesSaga(action) {
     const response = yield call(getEmployeesRequest)
     yield put(fetchEmployeesSucceed({ employees: response.data }));
   } catch (e) {
-    yield put(fetchEmployeesFailed({ error: e.message }));
+    yield put(fetchEmployeesFailed({ error: e.response.status }));
   }
 }
 
@@ -67,7 +67,7 @@ export function* createEmployeeSaga({ payload: { resolve, reject, values }}) {
     yield put(createEmployeeSucceed({ employee: response.data ? response.data.employee : emptyObject }));
     yield call(resolve)
   } catch (e) {
-    yield put(createEmployeeFailed({ error: e.message }));
+    yield put(createEmployeeFailed({ error: e.response.status }));
     yield call(reject)
   }
 }
@@ -82,7 +82,7 @@ export function* editEmployeeSaga({ payload: { resolve, reject, values }}) {
     yield put(editEmployeeSucceed({ employee: response.data ? response.data.employee : emptyObject }));
     yield call(resolve)
   } catch (e) {
-    yield put(editEmployeeFailed({ error: e.message }));
+    yield put(editEmployeeFailed({ error: e.response.status }));
     yield call(reject)
   }
 }
@@ -96,7 +96,7 @@ export function* deleteEmployeeSaga({ payload }) {
     yield call(deleteEmployeeRequest, payload)
     yield put(deleteEmployeeSucceed({ id: payload.id }));
   } catch (e) {
-    yield put(deleteEmployeeFailed({ error: e.message }));
+    yield put(deleteEmployeeFailed({ error: e.response.status }));
   }
 }
 
@@ -117,13 +117,13 @@ export const employees = (state = defaultState, { type, payload }) => {
       return {
         ...state,
         fetching: true,
-        error: false,
+        error: '',
       }
     case `${FETCH_EMPLOYEES}_SUCCEED`:
       return {
         ...state,
         fetching: false,
-        error: false,
+        error: '',
         list: payload.employees
       }
     case `${FETCH_EMPLOYEES}_FAILED`:
@@ -139,21 +139,21 @@ export const employees = (state = defaultState, { type, payload }) => {
       return {
         ...state,
         fetching: false,
-        error: false,
+        error: '',
         list: [...state.list, payload.employee]
       }
     case `${EDIT_EMPLOYEE}_SUCCEED`:
       return {
         ...state,
         fetching: false,
-        error: false,
+        error: '',
         list: updateEmployeesList(state.list, payload.employee)
       }
     case `${DELETE_EMPLOYEE}_SUCCEED`:
       return {
         ...state,
         fetching: false,
-        error: false,
+        error: '',
         list: [...state.list.filter(item => item.id !== payload.id)]
       }
     default:

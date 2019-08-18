@@ -72,7 +72,7 @@ class Employee extends React.Component {
       <form className={styles.form} onSubmit={handleSubmit}>
         <Field
           name="firstName"
-          render={({ input, meta }) => (
+          render={({ input }) => (
             <TextField
               disabled={!editing || fetching}
               label="First Name"
@@ -85,7 +85,7 @@ class Employee extends React.Component {
         />
         <Field
           name="lastName"
-          render={({ input, meta }) => (
+          render={({ input }) => (
             <TextField
               disabled={!editing || fetching}
               label="Last Name"
@@ -98,7 +98,7 @@ class Employee extends React.Component {
         />
         <Field
           name="token"
-          render={({ input, meta }) => (
+          render={({ input }) => (
             <TextField
               disabled={!editing || fetching}
               label="Token"

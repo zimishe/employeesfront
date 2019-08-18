@@ -9,7 +9,7 @@ export const getEmployeesRequest = () => axios({
   }
 })
 
-export const createEmployeeRequest = ({ token, ...employee }) => axios({
+export const createEmployeeRequest = ({ token = '', ...employee }) => axios({
   method: 'post',
   url: 'https://employeesservice00.herokuapp.com/employees',
   headers: {
@@ -19,7 +19,7 @@ export const createEmployeeRequest = ({ token, ...employee }) => axios({
   data: JSON.stringify(employee)
 })
 
-export const editEmployeeRequest = ({ token, ...employee }) => axios({
+export const editEmployeeRequest = ({ token = '', ...employee }) => axios({
   method: 'put',
   url: 'https://employeesservice00.herokuapp.com/employees',
   headers: {
@@ -29,7 +29,7 @@ export const editEmployeeRequest = ({ token, ...employee }) => axios({
   data: JSON.stringify(employee)
 })
 
-export const deleteEmployeeRequest = ({ token, ...employee }) => axios({
+export const deleteEmployeeRequest = ({ token = '', ...employee }) => axios({
   method: 'delete',
   url: 'https://employeesservice00.herokuapp.com/employees',
   headers: {

@@ -3,3 +3,9 @@
   align-items: center;
   margin-top: 10px;
 }
+
+.error {
+  position: absolute;
+  left: 20px;
+  color: red;
+}

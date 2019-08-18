@@ -19,6 +19,11 @@ import {
 
 import styles from './styles.module.css'
 
+
+const UNAUTHORIZED_STATUS_CODE = 401
+const UNAUTHORIZED_ERROR_TEXT = 'You are not authorized to perform this action, please enter correct token'
+const GENERAL_ERROR_TEXT = 'Sorry, something went wrong'
+
 const useStyles = makeStyles(theme => ({
   textField: {
     marginLeft: theme.spacing(1),
@@ -111,7 +116,8 @@ class Home extends React.Component {
     const {
       employees: {
         list,
-        fetching
+        fetching,
+        error
       }
     } = this.props
 
@@ -120,6 +126,14 @@ class Home extends React.Component {
         {list.length > 0 && list.map(({ _id, ...props }) => (
           <Employee fetching={fetching} key={_id} {...props} />
         ))}
+        {error && (
+          <div className={styles.error}>
+            {error === UNAUTHORIZED_STATUS_CODE
+              ? UNAUTHORIZED_ERROR_TEXT
+              : GENERAL_ERROR_TEXT
+            }
+          </div>
+        )}
         <Fab
           onClick={this.toggleCreateFormOpen}
           color="primary"
