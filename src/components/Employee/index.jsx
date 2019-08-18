@@ -54,16 +54,17 @@ class Employee extends React.Component {
     }
   }
 
-  onDelete = () => {
+  onDelete = values => () => {
     const {
       id,
       deleteEmployee
     } = this.props
+    const { token } = values
 
-    deleteEmployee({ id })
+    deleteEmployee({ id, token })
   }
 
-  renderForm = ({ handleSubmit }) => {
+  renderForm = ({ handleSubmit, values }) => {
     const classes = useStyles();
     const { editing } = this.state
     const { fetching } = this.props
@@ -100,7 +101,6 @@ class Employee extends React.Component {
           name="token"
           render={({ input }) => (
             <TextField
-              disabled={!editing || fetching}
               label="Token"
               className={classes.textField}
               margin="dense"
@@ -128,7 +128,7 @@ class Employee extends React.Component {
           </IconButton>
         )}
         <IconButton
-          onClick={this.onDelete}
+          onClick={this.onDelete(values)}
           className={classes.button}
           color="secondary"
         >

@@ -10,6 +10,7 @@ import SaveIcon from '@material-ui/icons/Save';
 import Employee from '../../components/Employee'
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 import {
   fetchEmployees,
@@ -122,7 +123,8 @@ class Home extends React.Component {
     } = this.props
 
     return (
-      <div style={{ marginTop: 20 }}>
+      <div className={styles.main}>
+        {fetching && <LinearProgress className={styles.progress} />}
         {list.length > 0 && list.map(({ _id, ...props }) => (
           <Employee fetching={fetching} key={_id} {...props} />
         ))}

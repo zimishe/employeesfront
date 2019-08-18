@@ -9,3 +9,12 @@
   left: 20px;
   color: red;
 }
+
+.progress {
+  margin: 0 10px 20px;
+  width: 780px;
+}
+
+.main {
+  margin-top: 20px;
+}
