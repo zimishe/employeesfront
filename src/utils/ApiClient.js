@@ -18,3 +18,23 @@ export const createEmployeeRequest = ({ token, ...employee }) => axios({
   },
   data: JSON.stringify(employee)
 })
+
+export const editEmployeeRequest = ({ token, ...employee }) => axios({
+  method: 'put',
+  url: 'https://employeesservice00.herokuapp.com/employees',
+  headers: {
+    Authorization: token,
+    'Content-type': 'application/json'
+  },
+  data: JSON.stringify(employee)
+})
+
+export const deleteEmployeeRequest = ({ token, ...employee }) => axios({
+  method: 'delete',
+  url: 'https://employeesservice00.herokuapp.com/employees',
+  headers: {
+    Authorization: token,
+    'Content-type': 'application/json'
+  },
+  data: JSON.stringify(employee)
+})

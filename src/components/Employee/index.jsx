@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -6,6 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
+
+import {
+  editEmployee,
+  deleteEmployee
+} from '../../features/Home/Home.sack'
 
 import styles from './styles.module.css';
 
@@ -22,12 +29,44 @@ const useStyles = makeStyles(theme => ({
 }));
 
 class Employee extends React.Component {
-  onSubmit = (...args) => {
-    console.log('args', args)
+  state = {
+    editing: false
+  }
+
+  toggleEditMode = () => {
+    this.setState(({ editing }) => ({ editing: !editing }))
+  }
+
+  onEdit = values => {
+    const {
+      id,
+      firstName,
+      lastName,
+      editEmployee
+    } = this.props
+
+    const dataChanged = firstName !== values.firstName || lastName !== values.lastName
+
+    if (this.state.editing) {
+      new Promise((resolve, reject) => {
+        dataChanged ? editEmployee({ values: { ...values, id }, resolve, reject }) : resolve()
+      }).then(() => this.toggleEditMode())
+    }
+  }
+
+  onDelete = () => {
+    const {
+      id,
+      deleteEmployee
+    } = this.props
+
+    deleteEmployee({ id })
   }
 
   renderForm = ({ handleSubmit }) => {
     const classes = useStyles();
+    const { editing } = this.state
+    const { fetching } = this.props
 
     return (
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -35,7 +74,7 @@ class Employee extends React.Component {
           name="firstName"
           render={({ input, meta }) => (
             <TextField
-              // disabled
+              disabled={!editing || fetching}
               label="First Name"
               className={classes.textField}
               margin="dense"
@@ -48,7 +87,7 @@ class Employee extends React.Component {
           name="lastName"
           render={({ input, meta }) => (
             <TextField
-              // disabled
+              disabled={!editing || fetching}
               label="Last Name"
               className={classes.textField}
               margin="dense"
@@ -61,7 +100,7 @@ class Employee extends React.Component {
           name="token"
           render={({ input, meta }) => (
             <TextField
-              // disabled
+              disabled={!editing || fetching}
               label="Token"
               className={classes.textField}
               margin="dense"
@@ -70,13 +109,29 @@ class Employee extends React.Component {
             />
           )}
         />
-        <IconButton className={classes.button} aria-label="edit" color="default">
-          <EditIcon />
-        </IconButton>
-        <IconButton className={classes.button} aria-label="save" color="primary">
-          <SaveIcon />
-        </IconButton>
-        <IconButton className={classes.button} aria-label="delete" color="secondary">
+
+        {editing ? (
+          <IconButton
+            className={classes.button}
+            color="primary"
+            type="submit"
+          >
+            <SaveIcon />
+          </IconButton>
+        ) : (
+          <IconButton
+            onClick={this.toggleEditMode}
+            className={classes.button}
+            color="default"
+          >
+            <EditIcon />
+          </IconButton>
+        )}
+        <IconButton
+          onClick={this.onDelete}
+          className={classes.button}
+          color="secondary"
+        >
           <DeleteIcon />
         </IconButton>
       </form>
@@ -89,7 +144,7 @@ class Employee extends React.Component {
     return (
       <Form
         render={this.renderForm}
-        onSubmit={this.onSubmit}
+        onSubmit={this.onEdit}
         initialValues={{
           firstName,
           lastName
@@ -99,4 +154,18 @@ class Employee extends React.Component {
   }
 }
 
-export default Employee
+Employee.propTypes = {
+  fetching: PropTypes.bool,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  id: PropTypes.string,
+  editEmployee: PropTypes.func,
+  deleteEmployee: PropTypes.func
+}
+
+const mapDispatchToProps = {
+  editEmployee,
+  deleteEmployee
+}
+
+export default connect(null, mapDispatchToProps)(Employee)

@@ -118,7 +118,7 @@ class Home extends React.Component {
     return (
       <div style={{ marginTop: 20 }}>
         {list.length > 0 && list.map(({ _id, ...props }) => (
-          <Employee key={_id} {...props} />
+          <Employee fetching={fetching} key={_id} {...props} />
         ))}
         <Fab
           onClick={this.toggleCreateFormOpen}
