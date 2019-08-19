@@ -1,17 +1,18 @@
 import axios from 'axios'
 
+const ENDPOINT_URL = 'https://employeesservice00.herokuapp.com/employees'
+
 export const getEmployeesRequest = () => axios({
   method: 'get',
-  url: 'https://employeesservice00.herokuapp.com/employees',
+  url: ENDPOINT_URL,
   headers: {
-    Authorization: '1q2wee3er4r',
     'Content-type': 'application/json'
   }
 })
 
 export const createEmployeeRequest = ({ token = '', ...employee }) => axios({
   method: 'post',
-  url: 'https://employeesservice00.herokuapp.com/employees',
+  url: ENDPOINT_URL,
   headers: {
     Authorization: token,
     'Content-type': 'application/json'
@@ -21,7 +22,7 @@ export const createEmployeeRequest = ({ token = '', ...employee }) => axios({
 
 export const editEmployeeRequest = ({ token = '', ...employee }) => axios({
   method: 'put',
-  url: 'https://employeesservice00.herokuapp.com/employees',
+  url: ENDPOINT_URL,
   headers: {
     Authorization: token,
     'Content-type': 'application/json'
@@ -31,7 +32,7 @@ export const editEmployeeRequest = ({ token = '', ...employee }) => axios({
 
 export const deleteEmployeeRequest = ({ token = '', ...employee }) => axios({
   method: 'delete',
-  url: 'https://employeesservice00.herokuapp.com/employees',
+  url: ENDPOINT_URL,
   headers: {
     Authorization: token,
     'Content-type': 'application/json'

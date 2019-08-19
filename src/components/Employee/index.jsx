@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Field } from 'react-final-form'
+
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
@@ -46,6 +47,7 @@ class Employee extends React.Component {
     } = this.props
 
     const dataChanged = firstName !== values.firstName || lastName !== values.lastName
+    // check if data changed, if not - just close edit mode without request
 
     if (this.state.editing) {
       new Promise((resolve, reject) => {
@@ -75,7 +77,7 @@ class Employee extends React.Component {
           name="firstName"
           render={({ input }) => (
             <TextField
-              disabled={!editing || fetching}
+              disabled={!editing || fetching} // disable edit when fetching data
               label="First Name"
               className={classes.textField}
               margin="dense"
@@ -109,7 +111,7 @@ class Employee extends React.Component {
             />
           )}
         />
-
+        {/** switch icon to Save when editing */}
         {editing ? (
           <IconButton
             className={classes.button}

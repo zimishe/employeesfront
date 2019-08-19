@@ -8,7 +8,7 @@ const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(
   reducers,
-  composeWithDevTools(
+  composeWithDevTools( // adding devtools for redux
     applyMiddleware(sagaMiddleware),
   )
 );
